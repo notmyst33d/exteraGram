@@ -2,4 +2,5 @@
 <resources>
     <!-- exteraGram bringup -->
     <string name="exteraAppName">exteraGram α</string>
+    <string name="exteraAppNameBeta">exteraGram β</string>
 </resources>
