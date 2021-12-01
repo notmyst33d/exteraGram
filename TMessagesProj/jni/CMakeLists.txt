@@ -6,14 +6,14 @@ set(CMAKE_ASM_FLAGS "${CFLAGS} -x assembler-with-cpp")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ffunction-sections -fdata-sections")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ffunction-sections -fdata-sections")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--exclude-libs,libtgvoip.a,libtgcalls.a,libtgcalls_tp.a,libtgnet.a,liblz4.a,libwebp.a,libflac.a,librlottie.a,libsqlite.a,
-${CMAKE_HOME_DIRECTORY}/ffmpeg/build/${ANDROID_ABI}/lib/libswscale.a,
-${CMAKE_HOME_DIRECTORY}/ffmpeg/build/${ANDROID_ABI}/lib/libavformat.a,
-${CMAKE_HOME_DIRECTORY}/ffmpeg/build/${ANDROID_ABI}/lib/libavcodec.a,
-${CMAKE_HOME_DIRECTORY}/ffmpeg/build/${ANDROID_ABI}/lib/libavresample.a,
-${CMAKE_HOME_DIRECTORY}/ffmpeg/build/${ANDROID_ABI}/lib/libavutil.a,
-${CMAKE_HOME_DIRECTORY}/ffmpeg/build/${ANDROID_ABI}/lib/libswresample.a,
-${CMAKE_HOME_DIRECTORY}/boringssl/build/${ANDROID_ABI}/ssl/libssl.a,
-${CMAKE_HOME_DIRECTORY}/boringssl/build/${ANDROID_ABI}/crypto/libcrypto.a")
+${CMAKE_HOME_DIRECTORY}/ffmpeg/${ANDROID_ABI}/libswscale.a,
+${CMAKE_HOME_DIRECTORY}/ffmpeg/${ANDROID_ABI}/libavformat.a,
+${CMAKE_HOME_DIRECTORY}/ffmpeg/${ANDROID_ABI}/libavcodec.a,
+${CMAKE_HOME_DIRECTORY}/ffmpeg/${ANDROID_ABI}/libavresample.a,
+${CMAKE_HOME_DIRECTORY}/ffmpeg/${ANDROID_ABI}/libavutil.a,
+${CMAKE_HOME_DIRECTORY}/ffmpeg/${ANDROID_ABI}/libswresample.a,
+${CMAKE_HOME_DIRECTORY}/boringssl/lib/libssl_${ANDROID_ABI}.a,
+${CMAKE_HOME_DIRECTORY}/boringssl/lib/libcrypto_${ANDROID_ABI}.a")
 
 if (${ANDROID_ABI} STREQUAL "armeabi-v7a" OR ${ANDROID_ABI} STREQUAL "arm64-v8a")
     enable_language(ASM)
@@ -22,28 +22,28 @@ else()
 endif()
 
 add_library(avutil STATIC IMPORTED)
-set_target_properties(avutil PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/ffmpeg/build/${ANDROID_ABI}/lib/libavutil.a)
+set_target_properties(avutil PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/ffmpeg/${ANDROID_ABI}/libavutil.a)
 
 add_library(avformat STATIC IMPORTED)
-set_target_properties(avformat PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/ffmpeg/build/${ANDROID_ABI}/lib/libavformat.a)
+set_target_properties(avformat PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/ffmpeg/${ANDROID_ABI}/libavformat.a)
 
 add_library(avcodec STATIC IMPORTED)
-set_target_properties(avcodec PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/ffmpeg/build/${ANDROID_ABI}/lib/libavcodec.a)
+set_target_properties(avcodec PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/ffmpeg/${ANDROID_ABI}/libavcodec.a)
 
 add_library(avresample STATIC IMPORTED)
-set_target_properties(avresample PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/ffmpeg/build/${ANDROID_ABI}/lib/libavresample.a)
+set_target_properties(avresample PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/ffmpeg/${ANDROID_ABI}/libavresample.a)
 
 add_library(swresample STATIC IMPORTED)
-set_target_properties(swresample PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/ffmpeg/build/${ANDROID_ABI}/lib/libswresample.a)
+set_target_properties(swresample PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/ffmpeg/${ANDROID_ABI}/libswresample.a)
 
 add_library(swscale STATIC IMPORTED)
-set_target_properties(swscale PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/ffmpeg/build/${ANDROID_ABI}/lib/libswscale.a)
+set_target_properties(swscale PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/ffmpeg/${ANDROID_ABI}/libswscale.a)
 
 add_library(crypto STATIC IMPORTED)
-set_target_properties(crypto PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/boringssl/build/${ANDROID_ABI}/crypto/libcrypto.a)
+set_target_properties(crypto PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/boringssl/lib/libcrypto_${ANDROID_ABI}.a)
 
 add_library(ssl STATIC IMPORTED)
-set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/boringssl/build/${ANDROID_ABI}/ssl/libssl.a)
+set_target_properties(ssl PROPERTIES IMPORTED_LOCATION ${CMAKE_HOME_DIRECTORY}/boringssl/lib/libssl_${ANDROID_ABI}.a)
 
 #tgnet
 add_library(mozjpeg STATIC
@@ -302,120 +302,71 @@ target_include_directories(flac PUBLIC
 
 #webp
 add_library(webp STATIC
-        libwebp/src/dec/alpha_dec.c
-        libwebp/src/dec/buffer_dec.c
-        libwebp/src/dec/frame_dec.c
-        libwebp/src/dec/idec_dec.c
-        libwebp/src/dec/io_dec.c
-        libwebp/src/dec/quant_dec.c
-        libwebp/src/dec/tree_dec.c
-        libwebp/src/dec/vp8_dec.c
-        libwebp/src/dec/vp8l_dec.c
-        libwebp/src/dec/webp_dec.c
-        libwebp/src/demux/anim_decode.c
-        libwebp/src/demux/demux.c
-        libwebp/src/dsp/alpha_processing.c
-        libwebp/src/dsp/alpha_processing_mips_dsp_r2.c
-        libwebp/src/dsp/alpha_processing_neon.c
-        libwebp/src/dsp/alpha_processing_sse2.c
-        libwebp/src/dsp/alpha_processing_sse41.c
-        libwebp/src/dsp/cpu.c
-        libwebp/src/dsp/dec.c
-        libwebp/src/dsp/dec_clip_tables.c
-        libwebp/src/dsp/dec_mips32.c
-        libwebp/src/dsp/dec_mips_dsp_r2.c
-        libwebp/src/dsp/dec_msa.c
-        libwebp/src/dsp/dec_neon.c
-        libwebp/src/dsp/dec_sse2.c
-        libwebp/src/dsp/dec_sse41.c
-        libwebp/src/dsp/filters.c
-        libwebp/src/dsp/filters_mips_dsp_r2.c
-        libwebp/src/dsp/filters_msa.c
-        libwebp/src/dsp/filters_neon.c
-        libwebp/src/dsp/filters_sse2.c
-        libwebp/src/dsp/lossless.c
-        libwebp/src/dsp/lossless_mips_dsp_r2.c
-        libwebp/src/dsp/lossless_msa.c
-        libwebp/src/dsp/lossless_neon.c
-        libwebp/src/dsp/lossless_sse2.c
-        libwebp/src/dsp/rescaler.c
-        libwebp/src/dsp/rescaler_mips32.c
-        libwebp/src/dsp/rescaler_mips_dsp_r2.c
-        libwebp/src/dsp/rescaler_msa.c
-        libwebp/src/dsp/rescaler_neon.c
-        libwebp/src/dsp/rescaler_sse2.c
-        libwebp/src/dsp/upsampling.c
-        libwebp/src/dsp/upsampling_mips_dsp_r2.c
-        libwebp/src/dsp/upsampling_msa.c
-        libwebp/src/dsp/upsampling_neon.c
-        libwebp/src/dsp/upsampling_sse2.c
-        libwebp/src/dsp/upsampling_sse41.c
-        libwebp/src/dsp/yuv.c
-        libwebp/src/dsp/yuv_mips32.c
-        libwebp/src/dsp/yuv_mips_dsp_r2.c
-        libwebp/src/dsp/yuv_neon.c
-        libwebp/src/dsp/yuv_sse2.c
-        libwebp/src/dsp/yuv_sse41.c
-        libwebp/src/dsp/cost.c
-        libwebp/src/dsp/cost_mips32.c
-        libwebp/src/dsp/cost_mips_dsp_r2.c
-        libwebp/src/dsp/cost_neon.c
-        libwebp/src/dsp/cost_sse2.c
-        libwebp/src/dsp/enc.c
-        libwebp/src/dsp/enc_mips32.c
-        libwebp/src/dsp/enc_mips_dsp_r2.c
-        libwebp/src/dsp/enc_msa.c
-        libwebp/src/dsp/enc_neon.c
-        libwebp/src/dsp/enc_sse2.c
-        libwebp/src/dsp/enc_sse41.c
-        libwebp/src/dsp/lossless_enc.c
-        libwebp/src/dsp/lossless_enc_mips32.c
-        libwebp/src/dsp/lossless_enc_mips_dsp_r2.c
-        libwebp/src/dsp/lossless_enc_msa.c
-        libwebp/src/dsp/lossless_enc_neon.c
-        libwebp/src/dsp/lossless_enc_sse2.c
-        libwebp/src/dsp/lossless_enc_sse41.c
-        libwebp/src/dsp/ssim.c
-        libwebp/src/dsp/ssim_sse2.c
-        libwebp/src/enc/alpha_enc.c
-        libwebp/src/enc/analysis_enc.c
-        libwebp/src/enc/backward_references_cost_enc.c
-        libwebp/src/enc/backward_references_enc.c
-        libwebp/src/enc/config_enc.c
-        libwebp/src/enc/cost_enc.c
-        libwebp/src/enc/filter_enc.c
-        libwebp/src/enc/frame_enc.c
-        libwebp/src/enc/histogram_enc.c
-        libwebp/src/enc/iterator_enc.c
-        libwebp/src/enc/near_lossless_enc.c
-        libwebp/src/enc/picture_enc.c
-        libwebp/src/enc/picture_csp_enc.c
-        libwebp/src/enc/picture_psnr_enc.c
-        libwebp/src/enc/picture_rescale_enc.c
-        libwebp/src/enc/picture_tools_enc.c
-        libwebp/src/enc/predictor_enc.c
-        libwebp/src/enc/quant_enc.c
-        libwebp/src/enc/syntax_enc.c
-        libwebp/src/enc/token_enc.c
-        libwebp/src/enc/tree_enc.c
-        libwebp/src/enc/vp8l_enc.c
-        libwebp/src/enc/webp_enc.c
-        libwebp/src/mux/anim_encode.c
-        libwebp/src/mux/muxedit.c
-        libwebp/src/mux/muxinternal.c
-        libwebp/src/mux/muxread.c
-        libwebp/src/utils/bit_reader_utils.c
-        libwebp/src/utils/color_cache_utils.c
-        libwebp/src/utils/filters_utils.c
-        libwebp/src/utils/huffman_utils.c
-        libwebp/src/utils/quant_levels_dec_utils.c
-        libwebp/src/utils/random_utils.c
-        libwebp/src/utils/rescaler_utils.c
-        libwebp/src/utils/thread_utils.c
-        libwebp/src/utils/utils.c
-        libwebp/src/utils/bit_writer_utils.c
-        libwebp/src/utils/huffman_encode_utils.c
-        libwebp/src/utils/quant_levels_utils.c)
+        libwebp/dec/alpha.c
+        libwebp/dec/buffer.c
+        libwebp/dec/frame.c
+        libwebp/dec/idec.c
+        libwebp/dec/io.c
+        libwebp/dec/quant.c
+        libwebp/dec/tree.c
+        libwebp/dec/vp8.c
+        libwebp/dec/vp8l.c
+        libwebp/dec/webp.c
+        libwebp/dsp/alpha_processing.c
+        libwebp/dsp/alpha_processing_sse2.c
+        libwebp/dsp/cpu.c
+        libwebp/dsp/dec.c
+        libwebp/dsp/dec_clip_tables.c
+        libwebp/dsp/dec_mips32.c
+        libwebp/dsp/dec_neon.c
+        libwebp/dsp/dec_sse2.c
+        libwebp/dsp/enc.c
+        libwebp/dsp/enc_avx2.c
+        libwebp/dsp/enc_mips32.c
+        libwebp/dsp/enc_neon.c
+        libwebp/dsp/enc_sse2.c
+        libwebp/dsp/lossless.c
+        libwebp/dsp/lossless_mips32.c
+        libwebp/dsp/lossless_neon.c
+        libwebp/dsp/lossless_sse2.c
+        libwebp/dsp/upsampling.c
+        libwebp/dsp/upsampling_neon.c
+        libwebp/dsp/upsampling_sse2.c
+        libwebp/dsp/yuv.c
+        libwebp/dsp/yuv_mips32.c
+        libwebp/dsp/yuv_sse2.c
+        libwebp/enc/alpha.c
+        libwebp/enc/analysis.c
+        libwebp/enc/backward_references.c
+        libwebp/enc/config.c
+        libwebp/enc/cost.c
+        libwebp/enc/filter.c
+        libwebp/enc/frame.c
+        libwebp/enc/histogram.c
+        libwebp/enc/iterator.c
+        libwebp/enc/picture.c
+        libwebp/enc/picture_csp.c
+        libwebp/enc/picture_psnr.c
+        libwebp/enc/picture_rescale.c
+        libwebp/enc/picture_tools.c
+        libwebp/enc/quant.c
+        libwebp/enc/syntax.c
+        libwebp/enc/token.c
+        libwebp/enc/tree.c
+        libwebp/enc/vp8l.c
+        libwebp/enc/webpenc.c
+        libwebp/utils/bit_reader.c
+        libwebp/utils/bit_writer.c
+        libwebp/utils/color_cache.c
+        libwebp/utils/filters.c
+        libwebp/utils/huffman.c
+        libwebp/utils/huffman_encode.c
+        libwebp/utils/quant_levels.c
+        libwebp/utils/quant_levels_dec.c
+        libwebp/utils/random.c
+        libwebp/utils/rescaler.c
+        libwebp/utils/thread.c
+        libwebp/utils/utils.c)
 target_compile_options(webp PUBLIC
         -Wall -finline-functions -ffast-math -Os)
 set_target_properties(webp PROPERTIES
@@ -423,7 +374,7 @@ set_target_properties(webp PROPERTIES
 target_compile_definitions(webp PUBLIC
         HAVE_MALLOC_H HAVE_PTHREAD WEBP_USE_THREAD)
 target_include_directories(webp PUBLIC
-        libwebp libwebp/src)
+        libwebp/src)
 
 #lz4
 add_library(lz4 STATIC
@@ -707,7 +658,7 @@ target_include_directories(${NATIVE_LIB} PUBLIC
         opus/opusfile
         third_party/libyuv/include
         boringssl/include
-        ffmpeg/build/${ANDROID_ABI}/include
+        ffmpeg/include
         emoji
         exoplayer/include
         exoplayer/libFLAC/include
