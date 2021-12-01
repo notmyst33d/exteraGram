@@ -177,6 +177,8 @@ import org.telegram.ui.Components.RecyclerItemsEnterAnimator;
 import java.io.File;
 import java.util.ArrayList;
 
+import com.exterasquad.messenger.ExteraConfig;
+
 public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     private boolean canShowFilterTabsView;
@@ -3923,12 +3925,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     filterTabsView.resetTabId();
                 }
                 filterTabsView.removeTabs();
-                filterTabsView.addTab(Integer.MAX_VALUE, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
+                if (!ExteraConfig.INSTANCE.getHideAllChats()) filterTabsView.addTab(Integer.MAX_VALUE, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
                 for (int a = 0, N = filters.size(); a < N; a++) {
                     filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name);
                 }
                 id = filterTabsView.getCurrentTabId();
-                boolean updateCurrentTab = false;
+                boolean updateCurrentTab = ExteraConfig.INSTANCE.getHideAllChats();
                 if (id >= 0) {
                     if (viewPages[0].selectedType != id) {
                         updateCurrentTab = true;
@@ -3937,7 +3939,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
                 for (int a = 0; a < viewPages.length; a++) {
                     if (viewPages[a].selectedType != Integer.MAX_VALUE && viewPages[a].selectedType >= filters.size()) {
-                        viewPages[a].selectedType = filters.size() - 1;
+                        viewPages[a].selectedType = filters.size();
                     }
                     viewPages[a].listView.setScrollingTouchSlop(RecyclerView.TOUCH_SLOP_PAGING);
                 }

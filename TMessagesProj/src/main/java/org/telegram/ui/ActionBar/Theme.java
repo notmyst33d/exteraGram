@@ -911,11 +911,14 @@ public class Theme {
                         key = "Arctic Blue";
                         break;
                     case 3:
+                    default:
                         key = "Day";
                         break;
                     case 4:
-                    default:
                         key = "Night";
+                        break;
+                    case 5:
+                        key = "AMOLED";
                         break;
                 }
                 ThemeInfo info = themesDict.get(key);
@@ -2060,7 +2063,7 @@ public class Theme {
             if (isDark != UNKNOWN) {
                 return isDark == DARK;
             }
-            if ("Dark Blue".equals(name) || "Night".equals(name)) {
+            if ("Dark Blue".equals(name) || "Night".equals(name) || "exDark".equals(name) || "exAMOLED".equals(name)) {
                 isDark = DARK;
             } else if ("Blue".equals(name) || "Arctic Blue".equals(name) || "Day".equals(name)) {
                 isDark = LIGHT;
@@ -4933,6 +4936,26 @@ public class Theme {
                 );
         themes.add(themeInfo);
         themesDict.put("Night", themeInfo);
+
+        themeInfo = new ThemeInfo();
+        themeInfo.name = "exDark";
+        themeInfo.assetName = "exDark.attheme";
+        themeInfo.previewBackgroundColor = 0xff191919;
+        themeInfo.previewInColor = 0xff3c3c3c;
+        themeInfo.previewOutColor = 0xff222222;
+        themeInfo.sortIndex = 6;
+        themes.add(themeInfo);
+        themesDict.put("exDark", themeInfo);
+
+        themeInfo = new ThemeInfo();
+        themeInfo.name = "exAMOLED";
+        themeInfo.assetName = "exAMOLED.attheme";
+        themeInfo.previewBackgroundColor = 0xff000000;
+        themeInfo.previewInColor = 0xff232323;
+        themeInfo.previewOutColor = 0xff373737;
+        themeInfo.sortIndex = 7;
+        themes.add(themeInfo);
+        themesDict.put("exAMOLED", themeInfo);
 
         String themesString = themeConfig.getString("themes2", null);
 
