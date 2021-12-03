@@ -33,7 +33,7 @@ public class NotificationsService extends Service {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,"Push Notifications Service",NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
             Intent explainIntent = new Intent("android.intent.action.VIEW");
-            explainIntent.setData(Uri.parse("https://github.com/exteraSquad/exteraGram/blob/master/Notifications.md"));
+            explainIntent.setData(Uri.parse("https://github.com/exteraSquad/exteraGram/blob/sudo-foss/Notifications.md"));
             PendingIntent explainPendingIntent = PendingIntent.getActivity(this, 0, explainIntent, 0);
             Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setContentIntent(explainPendingIntent)
