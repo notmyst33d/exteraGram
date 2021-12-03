@@ -5,8 +5,8 @@
 Experimental Telegram client based on [unofficial FOSS sources](https://github.com/Telegram-FOSS-Team/Telegram-FOSS).
 
 [![Channel](https://img.shields.io/badge/Channel-Telegram-red.svg)](https://t.me/exteragram) 
-[![Chat](https://img.shields.io/badge/ENChat-Telegram-red.svg)](https://t.me/en_exteraChat) 
-[![Chat](https://img.shields.io/badge/RUChat-Telegram-red.svg)](https://t.me/exteraChat)
+[![Chat](https://img.shields.io/badge/English%20Chat-Telegram-red.svg)](https://t.me/en_exteraChat) 
+[![Chat](https://img.shields.io/badge/Russian%20Chat-Telegram-red.svg)](https://t.me/exteraChat)
 
 
  ## Thanks to:
@@ -14,3 +14,14 @@ Experimental Telegram client based on [unofficial FOSS sources](https://github.c
 - [Telegram FOSS](https://github.com/Telegram-FOSS-Team/Telegram-FOSS)
 - [Catogram](https://github.com/Catogram/Catogram)
 
+## Importing API hash and key
+- You should get **YOUR OWN API KEY AND HASH** here: https://core.telegram.org/api/obtaining_api_id and create a file called `API_KEYS` in the source root directory. 
+The contents should look like this:
+```
+APP_ID = 12345
+APP_HASH = aaaaaaaabbbb
+```
+- **exteraGram** can be built with **Android Studio** or from the command line with **Gradle**:
+```
+./gradlew assembleAfatRelease
+```
